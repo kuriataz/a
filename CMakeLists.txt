@@ -98,3 +98,7 @@ install(TARGETS allocator_lib
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         PUBLIC_HEADER DESTINATION include)
+
+# Install the executable
+install(TARGETS allocator
+        DESTINATION bin)
