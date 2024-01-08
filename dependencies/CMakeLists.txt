@@ -35,11 +35,11 @@ set(T_HEADERS
 )
 add_library(tests_lib ${T_SOURCES} ${T_HEADERS})
 target_include_directories(tests_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(tests_lib PRIVATE Catch2::Catch2WithMain)
 add_executable(tests test.cpp)
 target_link_libraries(tests PRIVATE tests_lib)
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
-target_include_directories(tests_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(tests_lib PRIVATE Catch2::Catch2WithMain)
 
 
 
