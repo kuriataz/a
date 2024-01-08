@@ -1,9 +1,15 @@
-name: Print Done
+name: Print Done Workflow
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      trigger_name:
+        description: 'Trigger Name'
+        required: true
+        default: 'Print Done'
 
 jobs:
   print_done:
@@ -12,4 +18,3 @@ jobs:
     steps:
     - name: Print Done
       run: echo "PROBABLY_WORKS"
-
