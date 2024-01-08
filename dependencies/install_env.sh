@@ -1,29 +1,22 @@
 #!/bin/bash
 
-# Update system packages
-sudo apt update
-apt upgrade -y
+apt update
+upgrade -y
 
-# Install essential development tools
- apt install -y build-essential cmake ninja-build
+apt install -y build-essential cmake ninja-build
 
-# Install version control tools
- apt install -y git
+apt install -y git
 
-# Install Valgrind for memory debugging
- apt install -y valgrind
+apt install -y valgrind
 
-# Install Clang for additional development tools
- apt install -y clang
+apt install -y clang
 
-# Install dependencies for Catch2 (testing framework)
- apt install -y catch
+apt install -y catch
 
-# Install clang-tidy (static analysis tool)
- apt install -y clang-tools
+apt install -y clang-tools
 
- apt install -y clang-tidy
+apt install -y clang-tidy
 
- apt install libstdc++-12-dev
+apt install libstdc++-12-dev
 
 echo "Development environment setup complete."
