@@ -11,5 +11,5 @@ jobs:
 
     steps:
     - name: Print Done
-      run: echo "done"
+      run: echo "PROBABLY_WORKS"
 
