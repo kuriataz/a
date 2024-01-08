@@ -12,5 +12,8 @@ cd allocator/dependencies
 ./install_lib.sh ../new
 cd new
 
-g++ -o try try.cpp -Iapp/allocator/new app/allocator/new/build/liballocator_lib.a
+g++ -o try try.cpp -Iapp/allocator/new /app/allocator/new/build/liballocator_lib.a
+
+new_lib.sh:
+g++ -o try try.cpp -Iapp/allocator/dependencies build/liballocator_lib.a
 ./try
