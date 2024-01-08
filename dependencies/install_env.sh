@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Update system packages
-apt update
+sudo apt update
 apt upgrade -y
 
 # Install essential development tools
@@ -21,5 +21,9 @@ apt upgrade -y
 
 # Install clang-tidy (static analysis tool)
  apt install -y clang-tools
+
+ apt install -y clang-tidy
+
+ apt install libstdc++-12-dev
 
 echo "Development environment setup complete."
