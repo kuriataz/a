@@ -1,7 +1,7 @@
 #!/bin/bash
 
 apt update
-upgrade -y
+apt upgrade -y
 
 apt install -y build-essential cmake ninja-build
 
