@@ -1,0 +1,15 @@
+name: Print Done
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  print_done:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print Done
+      run: echo "done"
+
