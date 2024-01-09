@@ -99,27 +99,11 @@ void *Allocator::allocate(size_t const size, const char *file,
   while (current_block) {
     if (current_block->size >= size && current_block->free) {
       // apropirate block was found
-      // if (current_block->size > sizeof(Memory_Block) + size + 10) {
-      //   // block is large enough to split
-      //   Memory_Block *new_block = reinterpret_cast<Memory_Block *>(
-      //       static_cast<char *>(current_block->memory) + size);
-      //   new_block->next = current_block->next;
-      //   new_block->size = current_block->size - size - sizeof(Memory_Block);
-      //   new_block->memory =
-      //       reinterpret_cast<char *>(new_block) + sizeof(Memory_Block);
-      //   new_block->free = true;
-      //   new_block->magic_number = MAGIC_NUMBER;
-      //   new_block->file = "-";
-      //   new_block->line = 0;
-
-      //   current_block->next = new_block;
-      //   current_block->size = size;
-      // }
       if (current_block->magic_number != MAGIC_NUMBER) {
         std::cerr << "memory block is damaged\n";
         ++stats.damaged_blocks;
         pthread_mutex_unlock(&mutex);
-        // abort();
+        abort();
         return nullptr;
       }
       current_block->free = false;
@@ -199,7 +183,7 @@ void Allocator::deallocate(void *block) {
       // block to deallocate was found
       if (current_block->magic_number != MAGIC_NUMBER) {
         std::cerr << "memory block is damaged\n";
-        // abort();
+        abort();
         ++stats.damaged_blocks;
         pthread_mutex_unlock(&mutex);
         return;
@@ -257,6 +241,7 @@ void Allocator::final_deallocate() {
       std::cerr << "memory block is damaged\n";
       ++stats.damaged_blocks;
       pthread_mutex_unlock(&mutex);
+      abort();
       return;
     }
     if (!(previous_block == nullptr)) {
@@ -309,7 +294,6 @@ void Allocator::memory_dump() {
               << block_end << ", size " << current_block->size << ", file "
               << current_block->file << ", line " << current_block->line
               << ", free " << current_block->free << "}\n";
-    previous_block = current_block;
     current_block = current_block->next;
     pthread_mutex_unlock(&mutex);
   }

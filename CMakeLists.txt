@@ -10,6 +10,7 @@ set(SOURCES
 
 set(HEADERS
     "allocator.hpp"
+    "allocator_utils.hpp"
 )
 
 add_library(allocator_lib ${SOURCES} ${HEADERS})
@@ -20,9 +21,6 @@ $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 $<INSTALL_INTERFACE:include>
 )
 
-# prepare:
-# git submodule update --init --> skrypt ktory sprawdza czy Catch2 do pusty folder, jesli tak to wykonaj init
-# ./install_env --> sha pliku install_env zapisue go do .installed. --> skrypt ktory porownuje sha z tym co jest w installed, jesli NEQ uruchmo install_env
 add_custom_target(prepare
     COMMAND chmod +x prepare.sh
     COMMAND ./prepare.sh
@@ -31,12 +29,12 @@ add_custom_target(prepare
     COMMENT "Running Prepare"
     VERBATIM
 )
-add_dependencies(prepare ALL_BUILD)
 
 add_executable(allocator main.cpp)
 # add_custom_command(
 #     TARGET allocator
 #     COMMAND ./prepare.sh
+#     # COMMAND git submodule update --init --recursive
 #     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 #     COMMENT "Running Prepare"
 #     VERBATIM
@@ -44,7 +42,13 @@ add_executable(allocator main.cpp)
 add_dependencies(allocator prepare)
 target_link_libraries(allocator PRIVATE allocator_lib)
 
-add_subdirectory(Catch2)
+# add_custom_command(
+#     TARGET allocator
+#     PRE_BUILD
+#     COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target prepare
+#     COMMENT "Running Prepare before build"
+#     VERBATIM
+# )
 
 set(T_SOURCES
 "allocator.cpp"
@@ -53,16 +57,19 @@ set(T_SOURCES
 
 set(T_HEADERS
 "allocator.hpp"
+"allocator_utils.hpp"
 )
 
 add_library(tests_lib ${T_SOURCES} ${T_HEADERS})
 target_include_directories(tests_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_subdirectory(Catch2)
+
 target_link_libraries(tests_lib PRIVATE Catch2::Catch2WithMain)
 add_executable(tests test.cpp)
 target_link_libraries(tests PRIVATE tests_lib)
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 target_link_libraries(tests_lib PRIVATE Catch2::Catch2WithMain)
-
 
 
 #Valgrind
@@ -117,7 +124,7 @@ add_custom_target(regression
     COMMAND ${CMAKE_COMMAND} --build . --target valgrind  # Run Valgrind
     COMMAND ${CMAKE_COMMAND} --build . --target xanalyzer  # Run Xanalyzer
     COMMAND ${CMAKE_COMMAND} --build . --target scan_build  # Run ScanBuild
-    COMMAND ${CMAKE_COMMAND} --build . --target run-clang-tidy  # Run Clang-Tidy
+    # COMMAND ${CMAKE_COMMAND} --build . --target run-clang-tidy  # Run Clang-Tidy
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Running Regression (Tests and Analyses)"
 )

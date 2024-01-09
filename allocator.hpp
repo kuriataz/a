@@ -1,12 +1,12 @@
 #pragma once
 
 #include <cstddef>
+#include <cstring>
 #include <pthread.h>
 #include <string>
 #include <vector>
 
 namespace heaven {
-
 struct Stats {
   int alloc_num = 0;
   std::vector<std::string> alloc_files;

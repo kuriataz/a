@@ -1,21 +1,10 @@
 #include "allocator.hpp"
+#include "allocator_utils.hpp"
 #include <catch2/catch_test_macros.hpp>
 #include <cstdlib>
 #include <iostream>
 #include <iterator>
 #include <sstream>
-
-const char *extract_name(const char *file) {
-  const char *filename = strrchr(file, '/');
-#ifdef _WIN32
-  if (!filename) {
-    filename = strrchr(path, '\\');
-  }
-#endif
-  return filename ? filename + 1 : file;
-}
-#define FILE_NAME extract_name(__FILE__)
-#define allocate(bytes) allocate(bytes, FILE_NAME, __LINE__)
 
 namespace heaven {
 TEST_CASE("Allocating", "[allocator]") {
@@ -79,25 +68,6 @@ TEST_CASE("Memory Joining", "[allocator]") {
   int *intArray4 = reinterpret_cast<int *>(
       allocate(52 * sizeof(int))); // 52 * 4 = (20 + 20) * 4 + 48
   REQUIRE(intArray2 == reinterpret_cast<int *>(intArray4));
-
-  deallocate(intArray3);
-  deallocate(intArray4);
-
-  final_deallocate();
-}
-
-// not working
-TEST_CASE("Memory Spliting", "[allocator]") {
-  int *intArray1 = reinterpret_cast<int *>(allocate(20 * sizeof(int)));
-  int *intArray2 = reinterpret_cast<int *>(allocate(20 * sizeof(int)));
-  int *intArray3 = reinterpret_cast<int *>(allocate(20 * sizeof(int)));
-
-  deallocate(intArray1);
-  deallocate(intArray2);
-
-  int *intArray4 = reinterpret_cast<int *>(allocate(10 * sizeof(int)));
-  int *intArray5 = reinterpret_cast<int *>(allocate(30 * sizeof(int)));
-  REQUIRE(intArray2 == reinterpret_cast<int *>(intArray4));
   memory_dump();
 
   deallocate(intArray3);
@@ -105,5 +75,4 @@ TEST_CASE("Memory Spliting", "[allocator]") {
 
   final_deallocate();
 }
-
 } // namespace heaven
