@@ -3,7 +3,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cstdlib>
 #include <iostream>
-#include <iterator>
 #include <sstream>
 
 namespace heaven {
