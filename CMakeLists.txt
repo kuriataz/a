@@ -32,6 +32,13 @@ add_custom_target(prepare
     VERBATIM
 )
 add_executable(allocator main.cpp)
+# add_custom_command(
+#     TARGET allocator
+#     COMMAND ./prepare.sh
+#     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+#     COMMENT "Running Prepare"
+#     VERBATIM
+# )
 add_dependencies(allocator prepare)
 target_link_libraries(allocator PRIVATE allocator_lib)
 
