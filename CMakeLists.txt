@@ -14,7 +14,6 @@ set(HEADERS
 
 add_library(allocator_lib ${SOURCES} ${HEADERS})
 
-# target_include_directories(allocator_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(allocator_lib
 PUBLIC
 $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
@@ -24,13 +23,15 @@ $<INSTALL_INTERFACE:include>
 # prepare:
 # git submodule update --init --> skrypt ktory sprawdza czy Catch2 do pusty folder, jesli tak to wykonaj init
 # ./install_env --> sha pliku install_env zapisue go do .installed. --> skrypt ktory porownuje sha z tym co jest w installed, jesli NEQ uruchmo install_env
-
 add_custom_target(prepare
-    COMMAND chmod +x prepare.sh ./prepare.sh
+    COMMAND chmod +x prepare.sh
+    COMMAND ./prepare.sh
+    # COMMAND git submodule update --init --recursive
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     COMMENT "Running Prepare"
     VERBATIM
 )
+
 add_executable(allocator main.cpp)
 # add_custom_command(
 #     TARGET allocator
