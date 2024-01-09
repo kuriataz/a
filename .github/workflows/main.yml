@@ -1,4 +1,4 @@
-name: Print Done Workflow
+name: CMAKE BUILD
 
 on:
   push:
@@ -9,12 +9,17 @@ on:
       trigger_name:
         description: 'Trigger Name'
         required: true
-        default: 'Print Done'
+        default: 'CMake Build'
 
 jobs:
-  print_done:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Print Done
-      run: echo "PROBABLY_WORKS"
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: CMake Build
+      run: |
+        cmake -GNinja -Bbuild
+        ninja -Cbuild
