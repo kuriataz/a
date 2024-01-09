@@ -2,9 +2,10 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_CXX_STANDARD 17)
 project(allocator CXX)
 
+
 set(SOURCES
-    "allocator.cpp"
-    "main.cpp"
+"allocator.cpp"
+"main.cpp"
 )
 
 set(HEADERS
@@ -15,12 +16,23 @@ add_library(allocator_lib ${SOURCES} ${HEADERS})
 
 # target_include_directories(allocator_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(allocator_lib
-    PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:include>
+PUBLIC
+$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+$<INSTALL_INTERFACE:include>
 )
 
+# prepare:
+# git submodule update --init --> skrypt ktory sprawdza czy Catch2 do pusty folder, jesli tak to wykonaj init
+# ./install_env --> sha pliku install_env zapisue go do .installed. --> skrypt ktory porownuje sha z tym co jest w installed, jesli NEQ uruchmo install_env
+
+add_custom_target(prepare
+    COMMAND chmod +x prepare.sh ./prepare.sh
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Running Prepare"
+    VERBATIM
+)
 add_executable(allocator main.cpp)
+add_dependencies(allocator prepare)
 target_link_libraries(allocator PRIVATE allocator_lib)
 
 add_subdirectory(Catch2)
@@ -30,23 +42,10 @@ set(T_SOURCES
 "test.cpp"
 )
 
-
-add_dependencies(allocator prepare)
-
-# prepare:
-# git submodule update --init --> skrypt ktory sprawdza czy Catch2 do pusty folder, jesli tak to wykonaj init
-# ./install_env --> sha pliku install_env zapisue go do .installed. --> skrypt ktory porownuje sha z tym co jest w installed, jesli NEQ uruchmo install_env
-add_custom_target(prepare
-    COMMAND chmod +x prepare.sh ./prepare.sh
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Running Prepare"
-    VERBATIM
-)
-
-
 set(T_HEADERS
 "allocator.hpp"
 )
+
 add_library(tests_lib ${T_SOURCES} ${T_HEADERS})
 target_include_directories(tests_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(tests_lib PRIVATE Catch2::Catch2WithMain)

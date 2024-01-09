@@ -5,11 +5,15 @@ get_sha() {
     sha256sum "$1" | awk '{print $1}'
 }
 
-if [ -n "$(ls -A Catch2 2>/dev/null)" ]; then
 
+# Check if Catch2 directory is not empty
+if [ "$(ls -A Catch2 2>/dev/null)" ]; then
+    echo "Catch2 directory is not empty."
 else
+    echo "Catch2 directory is empty or does not exist. Initializing submodule..."
     git submodule update --init Catch2
 fi
+
 
 
 # Sprawdzenie czy plik install_env istnieje
