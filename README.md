@@ -19,8 +19,9 @@ Usage
     Get started:
         1. Clone this repo: git clone https://github.com/kuriataz/allocator.git
         2. Change directory: cd allocator/
-        3. Update submodule: git submodule update --init --recursive
-        4. Build project:
+        3. Prepare environment: chmod +x install_env.sh ./install_env.sh
+        4. Update submodule: git submodule update --init --recursive
+        5. Build project:
             cmake -GNinja -Bbuild
             ninja -Cbuild
 
