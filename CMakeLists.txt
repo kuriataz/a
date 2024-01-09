@@ -31,6 +31,7 @@ add_custom_target(prepare
     COMMENT "Running Prepare"
     VERBATIM
 )
+add_dependencies(prepare ALL_BUILD)
 
 add_executable(allocator main.cpp)
 # add_custom_command(

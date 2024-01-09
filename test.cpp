@@ -87,23 +87,23 @@ TEST_CASE("Memory Joining", "[allocator]") {
 }
 
 // not working
-// TEST_CASE("Memory Spliting", "[allocator]") {
-//   int *intArray1 = reinterpret_cast<int *>(allocate(20 * sizeof(int)));
-//   int *intArray2 = reinterpret_cast<int *>(allocate(20 * sizeof(int)));
-//   int *intArray3 = reinterpret_cast<int *>(allocate(20 * sizeof(int)));
+TEST_CASE("Memory Spliting", "[allocator]") {
+  int *intArray1 = reinterpret_cast<int *>(allocate(20 * sizeof(int)));
+  int *intArray2 = reinterpret_cast<int *>(allocate(20 * sizeof(int)));
+  int *intArray3 = reinterpret_cast<int *>(allocate(20 * sizeof(int)));
 
-//   deallocate(intArray1);
-//   deallocate(intArray2);
+  deallocate(intArray1);
+  deallocate(intArray2);
 
-//   int *intArray4 = reinterpret_cast<int *>(allocate(10 * sizeof(int)));
-//     int *intArray5 = reinterpret_cast<int *>(allocate(30 * sizeof(int)));
-//   REQUIRE(intArray2 == reinterpret_cast<int *>(intArray4));
-//   memory_dump();
+  int *intArray4 = reinterpret_cast<int *>(allocate(10 * sizeof(int)));
+  int *intArray5 = reinterpret_cast<int *>(allocate(30 * sizeof(int)));
+  REQUIRE(intArray2 == reinterpret_cast<int *>(intArray4));
+  memory_dump();
 
-//   deallocate(intArray3);
-//   deallocate(intArray4);
+  deallocate(intArray3);
+  deallocate(intArray4);
 
-//   final_deallocate();
-// }
+  final_deallocate();
+}
 
 } // namespace heaven

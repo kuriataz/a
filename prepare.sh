@@ -17,9 +17,9 @@ fi
 
 
 # Sprawdzenie czy plik install_env istnieje
-if [ -e "install_env" ]; then
+if [ -e "install_env.sh" ]; then
     # Pobranie SHA sumy pliku install_env
-    current_sha=$(get_sha "install_env")
+    current_sha=$(get_sha "install_env.sh")
 
     # Sprawdzenie czy istnieje plik .installed
     if [ -e ".installed" ]; then
@@ -33,7 +33,7 @@ if [ -e "install_env" ]; then
             echo "Aktualna SHA sumy nie jest zapisana w .installed. Uruchamianie install_env..."
 
             # Uruchamianie install_env
-            ./install_env
+            sudo ./install_env.sh
 
             # Dodanie aktualnej SHA sumy do listy w pliku .installed
             echo "$current_sha" >> ".installed"
@@ -43,7 +43,7 @@ if [ -e "install_env" ]; then
         echo "$current_sha" > ".installed"
 
         echo "Uruchamianie install_env..."
-        ./install_env
+        sudo ./install_env.sh
     fi
 else
     echo "Błąd: Brak pliku install_env."
