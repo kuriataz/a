@@ -8,7 +8,7 @@
 #define FILE_SEPARATOR '/'
 #endif
 
-const char *extract_name(const char *file) {
+inline const char *extract_name(const char *file) {
   const char *filename = strrchr(file, FILE_SEPARATOR);
   return filename ? filename + 1 : file;
 }
