@@ -115,6 +115,13 @@ void *Allocator::allocate(size_t const size, const char *file,
       //   current_block->next = new_block;
       //   current_block->size = size;
       // }
+      if (current_block->magic_number != MAGIC_NUMBER) {
+        std::cerr << "memory block is damaged\n";
+        // abort();
+        ++stats.damaged_blocks;
+        pthread_mutex_unlock(&mutex);
+        return nullptr;
+      }
       current_block->free = false;
       current_block->file = file;
       current_block->line = line;
@@ -192,6 +199,7 @@ void Allocator::deallocate(void *block) {
       // block to deallocate was found
       if (current_block->magic_number != MAGIC_NUMBER) {
         std::cerr << "memory block is damaged\n";
+        // abort();
         ++stats.damaged_blocks;
         pthread_mutex_unlock(&mutex);
         return;

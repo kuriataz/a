@@ -30,6 +30,20 @@ set(T_SOURCES
 "test.cpp"
 )
 
+
+add_dependencies(allocator prepare)
+
+# prepare:
+# git submodule update --init --> skrypt ktory sprawdza czy Catch2 do pusty folder, jesli tak to wykonaj init
+# ./install_env --> sha pliku install_env zapisue go do .installed. --> skrypt ktory porownuje sha z tym co jest w installed, jesli NEQ uruchmo install_env
+add_custom_target(prepare
+    COMMAND chmod +x prepare.sh ./prepare.sh
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Running Prepare"
+    VERBATIM
+)
+
+
 set(T_HEADERS
 "allocator.hpp"
 )
